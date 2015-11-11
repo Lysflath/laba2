@@ -1,0 +1,11 @@
+D:\Programs\Visual Studio\.net\Laba2.net\Laba2.net\Laba2.net\bin\Debug\Laba2.net.exe
+D:\Programs\Visual Studio\.net\Laba2.net\Laba2.net\Laba2.net\bin\Debug\Laba2.net.pdb
+D:\Programs\Visual Studio\.net\Laba2.net\Laba2.net\Laba2.net\obj\x86\Debug\MainWindow.baml
+D:\Programs\Visual Studio\.net\Laba2.net\Laba2.net\Laba2.net\obj\x86\Debug\MainWindow.g.cs
+D:\Programs\Visual Studio\.net\Laba2.net\Laba2.net\Laba2.net\obj\x86\Debug\App.g.cs
+D:\Programs\Visual Studio\.net\Laba2.net\Laba2.net\Laba2.net\obj\x86\Debug\Laba2.net_MarkupCompile.cache
+D:\Programs\Visual Studio\.net\Laba2.net\Laba2.net\Laba2.net\obj\x86\Debug\Laba2.net.g.resources
+D:\Programs\Visual Studio\.net\Laba2.net\Laba2.net\Laba2.net\obj\x86\Debug\Laba2.net.Properties.Resources.resources
+D:\Programs\Visual Studio\.net\Laba2.net\Laba2.net\Laba2.net\obj\x86\Debug\Laba2.net.csproj.GenerateResource.Cache
+D:\Programs\Visual Studio\.net\Laba2.net\Laba2.net\Laba2.net\obj\x86\Debug\Laba2.net.exe
+D:\Programs\Visual Studio\.net\Laba2.net\Laba2.net\Laba2.net\obj\x86\Debug\Laba2.net.pdb
