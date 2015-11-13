@@ -31,27 +31,52 @@ namespace Laba2.net
             FolderBrowserDialog dlg = new FolderBrowserDialog();
             dlg.RootFolder = Environment.SpecialFolder.MyComputer; // стартовий шлях
             dlg.ShowDialog();
-            string path = dlg.SelectedPath;
-            textBox1.Text = path; 
+            string path = System.IO.Path.GetFullPath(dlg.SelectedPath);
+            textBox1.Text = path;
 
-            int file1 = 0;
+            List<string> files = new List<string>(); 
 
-            FileInfo[] files = null; // створюється порожній масив файлів
-            DirectoryInfo[] subDirs = null;
-            DirectoryInfo root = new DirectoryInfo(path);
-            files = root.GetFiles("*.*"); // отримуються файли із вказаної користувачем папки
-            subDirs = root.GetDirectories("*.*");
+            DirectoryInfo direct = new DirectoryInfo(path);
+            GetAllFiles(path);
 
-            foreach(var dirInfo in subDirs)         
+        }
+
+        void GetAllFiles(string searchPath)
+        {
+            DirectoryInfo direct = new DirectoryInfo(searchPath);
+
+            foreach (var file in direct.GetFileSystemInfos())
+            {              
+                string subdir = file.FullName;
+                string result = MD5Hash(subdir);
+                textBox2.Text += result + "\n"; 
+                if (Directory.Exists(subdir))
+                    GetAllFiles(subdir);
+            }      
+        
+        }
+
+        private string MD5Hash(string fileForHashPath)
+        {
+            if (File.Exists(fileForHashPath))
             {
-                foreach(FileInfo file in files)
-                {         
-                    file1++;
-                    textBlock1.Text = file1.ToString();
-                }      
+                using (FileStream fs = File.OpenRead(fileForHashPath))
+                {
+                    MD5 md5 = new MD5CryptoServiceProvider();
+                    byte[] filebytes = new byte [1024];
+                    fs.Read(filebytes,0,filebytes.Length);
+                    byte[] Sum = md5.ComputeHash(filebytes);
+                    string result = BitConverter.ToString(Sum).Replace("-", String.Empty);
+                    return result;
+                }
             }
-            
+            else
+                return fileForHashPath;
         }
 
+        private void Border_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            this.DragMove();
         }
+    }
 }
