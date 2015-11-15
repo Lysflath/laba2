@@ -35,12 +35,14 @@ namespace Laba2.net
 
         private void button1_Click(object sender, RoutedEventArgs e)
         {
+            //збереження адреси обраної користувачем першої папки
             FolderBrowserDialog dlg = new FolderBrowserDialog();
             dlg.RootFolder = Environment.SpecialFolder.MyComputer; // стартовий шлях
             dlg.ShowDialog();
             string path = System.IO.Path.GetFullPath(dlg.SelectedPath);
             textBox1.Text = path;
 
+            //передача шляху першої попки у головну функцію програми
             DirectoryInfo direct = new DirectoryInfo(path);
             GetAllFiles(path, AllHashedFiles1, AllFiles1);            
             System.Windows.MessageBox.Show(AllHashedFiles1.Count.ToString() + "files founded" );
@@ -48,12 +50,14 @@ namespace Laba2.net
 
         private void button2_Click(object sender, RoutedEventArgs e)
         {
+            //збереження адреси обраної користувачем другої папки
             FolderBrowserDialog dlg = new FolderBrowserDialog();
             dlg.RootFolder = Environment.SpecialFolder.MyComputer; // стартовий шлях
             dlg.ShowDialog();
             string path = System.IO.Path.GetFullPath(dlg.SelectedPath);
             textBox3.Text = path;
 
+            //передача шляху другої попки у головну функцію програми
             DirectoryInfo direct = new DirectoryInfo(path);
             GetAllFiles(path, AllHashedFiles2, AllFiles2);
             System.Windows.MessageBox.Show(AllHashedFiles2.Count.ToString() + "files founded");       
@@ -61,6 +65,9 @@ namespace Laba2.net
 
         private void button3_Click(object sender, RoutedEventArgs e)
         {
+            textBox2.Text = "";
+
+            //порівняння хешованих файлів і додавання співпадаючих у відповідний список
             for (int i = 1; i < AllHashedFiles1.Count; i++)
             {
                 for (int j = 1; j < AllHashedFiles2.Count; j++)
@@ -76,19 +83,27 @@ namespace Laba2.net
                 }                            
             }
 
+            //виведення у текстбокс всіх одинакових елементів, розташованих групами за розширенням
             for(int i = 2; i < SimilarFiles.Count; i++)
             {
                 string extention = System.IO.Path.GetExtension(SimilarFiles[i]);                
                 if(!System.IO.Path.GetExtension(SimilarFiles[i-1]).Equals(extention))
                 {
-                    textBox2.Text += extention + "\n";
+                    textBox2.Text += "\n" + extention + "\n";
                 }
 
-                textBox2.Text += SimilarFiles[i].ToString() + "\n";
-                    
+                textBox2.Text += SimilarFiles[i].ToString() + "\n";                   
 
             }
-                    
+            if (SimilarFiles.Count.Equals(0))
+                System.Windows.MessageBox.Show("no similar files found");
+
+            //очищення вмісту всіх списків
+            AllHashedFiles1.Clear();
+            AllHashedFiles2.Clear();
+            AllFiles1.Clear();
+            AllFiles2.Clear();
+            SimilarFiles.Clear();                    
         }
 
         // головна функція програми
@@ -102,6 +117,7 @@ namespace Laba2.net
                     string result = MD5Hash(subdir, allfiles);
                     hashedFiles.Add(result);
                 if (Directory.Exists(subdir))
+                    // для роботи функції із підпапками використано рекурсію
                     GetAllFiles(subdir,hashedFiles, allfiles);   
             }      
         
@@ -116,7 +132,7 @@ namespace Laba2.net
                 using (FileStream fs = File.OpenRead(fileForHashPath))
                 {
                     MD5 md5 = new MD5CryptoServiceProvider();
-                    byte[] filebytes = new byte [1024];
+                    byte[] filebytes = new byte [256];
                     fs.Read(filebytes,0,filebytes.Length);
                     byte[] Sum = md5.ComputeHash(filebytes);
                     string result = BitConverter.ToString(Sum).Replace("-", String.Empty);
@@ -127,6 +143,7 @@ namespace Laba2.net
                 return fileForHashPath;
         }
 
+        // можливість перетягування вікна за допомогою миші
         private void Border_MouseDown(object sender, MouseButtonEventArgs e)
         {
             this.DragMove();
